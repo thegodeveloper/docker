@@ -30,3 +30,20 @@ Type "help" for help.
 postgres=#
 ```
 
+## Publish a NGINX container
+
+```shell
+docker container run --publish 8080:80 --detach nginx
+0c1862d5f142cca36fa368193df572b1e14f192850895a62bac6a9b555130063
+```
+
+### Validate if the container is running
+
+```shell
+curl -s localhost:8080 | head -n 4
+<!DOCTYPE html>
+<html>
+<head>
+<title>Welcome to nginx!</title>
+```
+

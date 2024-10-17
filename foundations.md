@@ -43,3 +43,10 @@ cat /proc/cgroups
 - PaaS (Google Cloud Run, AWS App Runner).
 
 **Docker Engine** OCI Container Runtime.
+
+## Image vs. Container
+
+- An image is the application we want to run.
+- A container is an instance of that image running as a process.
+- You can have many containers running off the same image.
+- Docker's default image registry is called Docker Hub (hub.docker.com).
