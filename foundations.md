@@ -23,3 +23,9 @@ cat /proc/cgroups
 
 - Allows files and directories of separate file systems, known as branches, to be transparently overlaid, forming a single coherent file system.
 - Contents of directories which have the same path within the merged branches will be seen together in a single merged directory, within the new, virtual file system.
+
+## Why Containers
+
+- Better isolation in a single operating system.
+- Reduced environment variances.
+- Increase speed of change.
