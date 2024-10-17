@@ -1,4 +1,4 @@
-# Run a Container
+# Containers
 
 ## Create a Container
 
@@ -19,7 +19,7 @@ PostgreSQL init process complete; ready for start up.
 - `--publish`: Is to map a port from the host to the container.
 - `postgres:15.1-alpine`: Is the image name and tag.
 
-## Connect to the database
+### Connect to the database
 
 ```shell
 psql --host=localhost --dbname=postgres --username=postgres
@@ -47,3 +47,8 @@ curl -s localhost:8080 | head -n 4
 <title>Welcome to nginx!</title>
 ```
 
+## Inspect Containers Using Docker Commands
+
+- `docker container top` - Process list in one container.
+- `docker container inspect` - Details of one container config.
+- `docker container stats` - Performance stats for all containers.
