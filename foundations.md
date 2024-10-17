@@ -29,3 +29,17 @@ cat /proc/cgroups
 - Better isolation in a single operating system.
 - Reduced environment variances.
 - Increase speed of change.
+
+## Other Notes
+
+- `Linux containers` require a Linux Kernel (OS).
+- `macOS` and `Windows` will need a Linux VM.
+- Many container tools manage a tiny Linux VM.
+
+## 3 major ways to run containers
+
+- Locally (Docker Desktop, Rancher Desktop).
+- Servers (Docker Engine, K8s).
+- PaaS (Google Cloud Run, AWS App Runner).
+
+**Docker Engine** OCI Container Runtime.
