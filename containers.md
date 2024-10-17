@@ -3,7 +3,7 @@
 ## Create a Container
 
 ```shell
-docker run --env POSTGRES_PASSWORD=passw0rd --publish 5432:5432 postgres:15.1-alpine
+docker run --env POSTGRES_PASSWORD=passw0rd --publish 5432:5432 --name postgres-docker-course --detach postgres:15.1-alpine
 ...
 PostgreSQL init process complete; ready for start up.
 
@@ -52,3 +52,99 @@ curl -s localhost:8080 | head -n 4
 - `docker container top` - Process list in one container.
 - `docker container inspect` - Details of one container config.
 - `docker container stats` - Performance stats for all containers.
+
+### Docker Container Top
+
+```shell
+docker container top postgres-docker-course
+UID                 PID                 PPID                C                   STIME               TTY                 TIME                CMD
+70                  88248               88229               0                   20:08               ?                   00:00:00            postgres
+70                  88313               88248               0                   20:08               ?                   00:00:00            postgres: checkpointer
+70                  88314               88248               0                   20:08               ?                   00:00:00            postgres: background writer
+70                  88316               88248               0                   20:08               ?                   00:00:00            postgres: walwriter
+70                  88317               88248               0                   20:08               ?                   00:00:00            postgres: autovacuum launcher
+70                  88318               88248               0                   20:08               ?                   00:00:00            postgres: logical replication launcher
+```
+
+### Docker Container Inspect
+
+```shell
+docker container inspect postgres-docker-course
+[
+    {
+        "Id": "90019f444faaa4604546d379e166ffad866f8672c559038ad99110628cbdf3b8",
+        "Created": "2024-10-17T20:08:12.559345006Z",
+        "Path": "docker-entrypoint.sh",
+        "Args": [
+            "postgres"
+        ],
+        "State": {
+...
+```
+
+### Docker Container Stats
+
+```shell
+docker container stats postgres-docker-course
+CONTAINER ID   NAME                     CPU %     MEM USAGE / LIMIT    MEM %     NET I/O       BLOCK I/O     PIDS
+90019f444faa   postgres-docker-course   0.00%     23.14MiB / 15.6GiB   0.14%     1.05kB / 0B   0B / 41.1MB   6
+CONTAINER ID   NAME                     CPU %     MEM USAGE / LIMIT    MEM %     NET I/O       BLOCK I/O     PIDS
+90019f444faa   postgres-docker-course   0.00%     23.14MiB / 15.6GiB   0.14%     1.05kB / 0B   0B / 41.1MB   6
+CONTAINER ID   NAME                     CPU %     MEM USAGE / LIMIT    MEM %     NET I/O       BLOCK I/O     PIDS
+90019f444faa   postgres-docker-course   0.00%     23.14MiB / 15.6GiB   0.14%     1.05kB / 0B   0B / 41.1MB   6
+```
+
+***Press CTRL+C to cancel***
+
+## Getting shell into containers
+
+- `docker container run -it` - Start new container interactively.
+- `docker container exec -it` - Run additional command in existing container.
+
+### Using run -it
+
+```shell
+docker container run -it --name mariadb --publish 3306:3306 mariadb sh                                                                                                      ─╯
+Unable to find image 'mariadb:latest' locally
+latest: Pulling from library/mariadb
+1f6304731171: Already exists 
+d0a18beac8bf: Pull complete 
+aca8a8e17e98: Pull complete 
+9ffe471e6e02: Pull complete 
+53eca382844f: Pull complete 
+a287069788e5: Pull complete 
+2575bdc3586e: Pull complete 
+6ab219cecbc8: Pull complete 
+Digest: sha256:4a1de8fa2a929944373d7421105500ff6f889ce90dcb883fbb2fdb070e4d427e
+Status: Downloaded newer image for mariadb:latest
+# ps
+  PID TTY          TIME CMD
+    1 pts/0    00:00:00 sh
+    7 pts/0    00:00:00 ps
+#
+```
+
+***When I exit, the container stop:***
+
+```shell
+docker container ls -a                                                                                                                                                      ─╯
+CONTAINER ID   IMAGE      COMMAND                  CREATED              STATUS                        PORTS     NAMES
+d66cbfbd2c64   mariadb    "docker-entrypoint.s…"   About a minute ago   Exited (127) 10 seconds ago             mariadb
+```
+
+### Using exec -it
+
+```shell
+docker container run --name mariadb --publish 3306:3306 --detach -e MARIADB_ALLOW_EMPTY_ROOT_PASSWORD=yes mariadb
+fd4eb83c17e056c43c83ce1aa4c8034a89e00c9fccd0dceba9578540fdf284df
+```
+
+#### Connect to an existing running container
+
+```shell
+docker container exec -it mariadb bash
+root@1455a7ad31a9:/# ps -a
+  PID TTY          TIME CMD
+  142 pts/0    00:00:00 ps
+root@1455a7ad31a9:/#
+```
