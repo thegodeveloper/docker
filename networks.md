@@ -127,3 +127,25 @@ docker container inspect webhost
 - All externally exposed ports closed by default.
 - You must manually expose via `-p`, which is better default security.
 - This gets even better later with Swarm and Overlay networks.
+
+## Docker Networks: DNS
+
+- Docker daemon has a built-in DNS server that containers use by default.
+- Docker defaults the hostname to the container's name, but you can also set aliases. 
+
+### Create a new container in learning_docker network
+
+```shell
+docker container run --detach --name backend_nginx --network learning_docker --publish 9191:80 nginx:alpine
+3fe5ebfaa5a5fd19b596dd9857190acfb2a21fa1cf86d64fe23a74f189514a24
+```
+
+### Test the DNS resolution
+
+```shell
+docker container exec -it new_nginx ping backend_nginx
+PING backend_nginx (172.19.0.3): 56 data bytes
+64 bytes from 172.19.0.3: seq=0 ttl=64 time=0.068 ms
+64 bytes from 172.19.0.3: seq=1 ttl=64 time=0.190 ms
+64 bytes from 172.19.0.3: seq=2 ttl=64 time=0.158 ms
+```
