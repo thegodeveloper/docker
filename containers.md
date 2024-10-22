@@ -148,3 +148,43 @@ root@1455a7ad31a9:/# ps -a
   142 pts/0    00:00:00 ps
 root@1455a7ad31a9:/#
 ```
+
+## Monitoring Containers
+
+- `docker container top` - process list in one container
+- `docker container inspect` - details of one container config
+- `docker container stats` - performance stats for all containers
+
+### Create some containers
+
+```shell
+docker container run -d --name nginx nginx
+229f6baf279abb83d3dc4524b69d979baaaeb9e901719ba16c28196f46dc4bda
+```
+
+```shell
+docker container run -d --name mysql -e MYSQL_RANDOM_ROOT_PASSWORD=true mysql
+8feb334662843bfb306d65bef7b72e58be0cd45a99d3fac3ecaf6a1b3732bf2e
+```
+
+### Top processes in nginx and mysql containers
+
+```shell
+docker container top nginx
+UID                 PID                 PPID                C                   STIME               TTY                 TIME                CMD
+root                30488               30470               0                   01:47               ?                   00:00:00            nginx: master process nginx -g daemon off;
+statd               30537               30488               0                   01:47               ?                   00:00:00            nginx: worker process
+statd               30538               30488               0                   01:47               ?                   00:00:00            nginx: worker process
+statd               30539               30488               0                   01:47               ?                   00:00:00            nginx: worker process
+statd               30540               30488               0                   01:47               ?                   00:00:00            nginx: worker process
+statd               30541               30488               0                   01:47               ?                   00:00:00            nginx: worker process
+statd               30542               30488               0                   01:47               ?                   00:00:00            nginx: worker process
+statd               30543               30488               0                   01:47               ?                   00:00:00            nginx: worker process
+statd               30544               30488               0                   01:47               ?                   00:00:00            nginx: worker process
+```
+
+```shell
+docker container top mysql
+UID                 PID                 PPID                C                   STIME               TTY                 TIME                CMD
+999                 31021               31002               0                   01:50               ?                   00:00:01            mysqld
+```
